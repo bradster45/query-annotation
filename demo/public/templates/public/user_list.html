@@ -1,0 +1,28 @@
+{% extends 'public/base.html' %}
+
+{% load custom_filters %}
+
+{% block container %}
+    <table id="tableList" class="table table-dark">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Title</th>
+                <th>Email</th>
+                <th class="average-rating orderable" data-order="average_rating">Average rating</th>
+                <th class="hits orderable" data-order="views">Hits</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for user in object_list %}
+            <tr>
+                <td>{{ user.id }}</td>
+                <td>{{ user.username }}</td>
+                <td>{{ user.email }}</td>
+                <td>{{ user.average_rating|floatformat|strip_0 }}</td>
+                <td>{{ user.views }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock container %}

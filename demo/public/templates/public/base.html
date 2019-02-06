@@ -1,0 +1,81 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Article list</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
+    <style>
+        body{
+            background-color:#224262;
+        }
+
+        div.container{
+            padding:20px;
+        }
+
+        div.container table{
+            box-shadow: -1px 2px 19px 3px #082839;
+        }
+
+        .orderable{
+            cursor:pointer;
+        }
+        
+        .pagination-container{
+            text-align: center;
+        }
+
+        /* pagination */
+        .page-navigation{
+            clear:both;
+            margin-top:20px;
+        }
+
+        .page-navigation a{
+            text-decoration: none;
+        }
+
+        .page-navigation button{
+            border:2px solid #1e2d4e;
+            background-color:#1e2d4e;
+            padding:10px 20px;
+            cursor:pointer;
+            color:white;
+        }
+
+        .page-navigation .active{
+            background-color:#dcdcdc;
+            color:#1e2d4e;
+        }
+
+        .page-navigation button img.arrow{
+            height: 10px;
+            margin:0 5px;
+        }
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+</head>
+<body>
+    <div class="container clearfix">
+        {% block container %}{% endblock container %}
+
+        <div class="pagination-container">
+            {% include 'public/include/pagination.html' %}
+        </div>
+    </div>
+    <script>
+        $('.orderable').click(function(){
+            console.log(this);
+            var field = $(this).attr('data-order');
+            if (window.location.search.includes('-' + field)){
+                field = field.replace('-', '');
+            } else {
+                field = '-' + field;
+            };
+            window.location.href = window.location.origin + window.location.pathname + '?order=' + field;
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,46 @@
+{% load staticfiles %}
+
+{% if page_obj.has_other_pages %}
+    <div class="page-navigation">
+        <a href="?page=1{% include 'public/include/pagination_string.html' %}">
+            <button class="dark-blue-background nav_button" >FIRST</button>
+        </a>
+        {% if page_obj.number|add:'-1' > 0 %}
+            <a href="?page={{ page_obj.number|add:'-1' }}{% include 'public/include/pagination_string.html' %}">
+                <button class="dark-blue-background nav_button extra" >PREV</button>
+            </a>
+            {% if page_obj.number|add:'-2' > 0 %}
+                <a href="?page={{ page_obj.number|add:'-2' }}{% include 'public/include/pagination_string.html' %}">
+                    <button class="dark-blue-background nav_button extra" >{{ page_obj.number|add:'-2' }}</button>
+                </a>
+            {% endif %}
+            {# page number without adding the pages_plus, this is  #}
+            {% if pages_plus > 0 %}
+                <a href="?page={{ page_obj.number }}{% include 'public/include/pagination_string.html' %}">
+                    <button class="dark-blue-background nav_button" >{{ page_obj.number }}</button>
+                </a>
+            {% else %}
+                <a href="?page={{ page_obj.number|add:'-1' }}{% include 'public/include/pagination_string.html' %}">
+                    <button class="dark-blue-background nav_button" >{{ page_obj.number|add:'-1' }}</button>
+                </a>
+            {% endif %}
+        {% endif %}
+        <button class="dark-blue-background nav_button active" >{{ page_obj.number }}</button>
+        {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}{% include 'public/include/pagination_string.html' %}">
+                <button class="dark-blue-background nav_button" >{{ page_obj.next_page_number }}</button>
+            </a>
+            {% if page_obj.number|add:'2' <= page_obj.paginator.num_pages %}
+                <a href="?page={{ page_obj.number|add:'2' }}{% include 'public/include/pagination_string.html' %}">
+                    <button class="dark-blue-background nav_button extra" >{{ page_obj.number|add:'2' }}</button>
+                </a>
+            {% endif %}
+            <a href="?page={{ page_obj.next_page_number }}{% include 'public/include/pagination_string.html' %}">
+                <button class="dark-blue-background nav_button extra" >NEXT</button>
+            </a>
+        {% endif %}
+        <a href="?page={{ page_obj.paginator.num_pages }}{% include 'public/include/pagination_string.html' %}">
+            <button class="dark-blue-background nav_button" >LAST</button>
+        </a>
+    </div>
+{% endif %}

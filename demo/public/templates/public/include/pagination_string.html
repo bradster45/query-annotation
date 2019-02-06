@@ -1,0 +1,18 @@
+{% spaceless %}
+
+    {# q_words is search params #}
+    {% if q_words %}
+        &q=
+        {% for w in q_words %}
+            {{ w }}
+            {% if not forloop.last %}
+                +
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+
+    {# view.order is current order of queryset #}
+    {% if view.order %}
+        &order={{ view.order }}
+    {% endif %}
+{% endspaceless %}
