@@ -12,7 +12,7 @@ In the [models](https://github.com/bradster45/query-annotation/blob/master/demo/
 
 In the [HomeView](https://github.com/bradster45/query-annotation/blob/master/demo/public/views.py) I demonstrate how to add annotations to a ListView using get_queryset. For example, the snippet bellow demonstrates adding the count field of all hits of all pages for each article.
 
-```
+```python
 Article.objects.all().annotate(
     views=Sum(
         Case(
@@ -33,7 +33,7 @@ This outputs an integer that can be referenced in the template.
 
 With the annotation added in the queryset, in the [template](https://github.com/bradster45/query-annotation/blob/master/demo/public/templates/public/article_list.html) we now have access to the value as if it were a field of the model. To output the value:
 
-```
+```html
 <td>{{ article.views }}</td>
 ```
 
@@ -43,7 +43,7 @@ In the list I've also output an average rating using Django's Avg, as well as th
 
 Using some client side scripting and some HTML I can dynamically filter the list by changing the URL based on table headings being clicked. In my HTML I have the following <th> elements:
   
-```
+```html
 <th class="average-rating orderable" data-order="average_rating">Average rating</th>
 <th class="unique-hits orderable" data-order="unique_views">Unique views</th>
 <th class="hits orderable" data-order="views">Hits</th>
@@ -51,7 +51,7 @@ Using some client side scripting and some HTML I can dynamically filter the list
 
 In my JavaScript, I listen for the click event of class .orderable and dynamically add the order arg to the url based on what was clicked.
 
-```
+```javascript
 $('.orderable').click(function(){
     var field = $(this).attr('data-order');
     if (window.location.search.includes('-' + field)){
