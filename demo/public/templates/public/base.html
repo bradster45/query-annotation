@@ -85,7 +85,6 @@
     </div>
     <script>
         $('.orderable').click(function(){
-            console.log(this);
             var field = $(this).attr('data-order');
             if (window.location.search.includes('-' + field)){
                 field = field.replace('-', '');
