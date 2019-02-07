@@ -44,9 +44,9 @@ In the list I've also output an average rating using Django's Avg, as well as th
 Using some client side scripting and some HTML I can dynamically filter the list by changing the URL based on table headings being clicked. In my HTML I have the following <th> elements:
   
 ```html
-<th class="average-rating orderable" data-order="average_rating">Average rating</th>
-<th class="unique-hits orderable" data-order="unique_views">Unique views</th>
-<th class="hits orderable" data-order="views">Hits</th>
+<th class="orderable average-rating" data-order="average_rating">Average rating</th>
+<th class="orderable unique-hits" data-order="unique_views">Unique views</th>
+<th class="orderable hits" data-order="views">Hits</th>
 ```
 
 In my JavaScript, I listen for the click event of class .orderable and dynamically add the order arg to the url based on what was clicked.
