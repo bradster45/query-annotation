@@ -66,3 +66,40 @@ $('.orderable').click(function(){
 Based on the order arg in the URL, the view orders the queryset using the annotated value.
 
 ![ordering demo](https://github.com/bradster45/query-annotation/blob/master/demo/public/static/public/images/ordering.JPG)
+
+### Increasing page hits
+
+In my PageDetailView I've overridden the get_object method. In here I get the Page object and either get or create a Hit object associating it with the User. If it was a get, not a create, I add 1 to the count.
+
+```python
+def get_object(self, ):
+    pk = self.kwargs.get(self.pk_url_kwarg)
+    page = Page.objects.get(pk=pk)
+    hit, hit_created = Hit.objects.get_or_create(
+        page=page,
+        user=self.request.user,
+        defaults={
+            'rating': random.randint(1, 5)
+        }
+    )
+    if not hit_created:
+        hit.count += 1
+        hit.save()
+    return page
+```
+
+### Data setup
+
+If you've made it this far, you might be interested to know how I setup my test Article, Page, User and Hit objects. In the public app I have a module called [populate](https://github.com/bradster45/query-annotation/blob/master/demo/public/populate.py). In the run function I loop through a few ranges in order to create dummy articles. For each article I create a number of pages. I then also loop through 100 to generate some users. The next part is quite cool.
+
+I randomly pick a number between 25-100 and loop through that number. In each iteration I get or create a hit object with the user and a randomly selected page. If it wasn't created, increase the counter. If it was created, a random number between 1-5 was set as the rating.
+
+The run function is commented to show how many operations there are.
+Final estimate for total Django queries is ~7,350
+
+```python
+from public.populate import *
+run()
+```
+
+![shell](https://github.com/bradster45/query-annotation/blob/master/demo/public/static/public/images/shell.JPG)
