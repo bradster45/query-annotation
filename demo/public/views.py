@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-from django.views.generic import ListView
+import random
+
+from django.views.generic import ListView, DetailView
 from django.db.models import Avg, Sum, Case, When, Count, IntegerField
 
 from public.models import *
@@ -63,3 +65,23 @@ class UserListView(ListView):
             order
         )
         return analytics
+
+
+class PageDetailView(DetailView):
+    model = Page
+
+    # increase page hit
+    def get_object(self, ):
+        pk = self.kwargs.get(self.pk_url_kwarg)
+        page = Page.objects.get(pk=pk)
+        hit, hit_created = Hit.objects.get_or_create(
+            page=page,
+            user=self.request.user,
+            defaults={
+                'rating': random.randint(1, 5)
+            }
+        )
+        if not hit_created:
+            hit.count += 1
+            hit.save()
+        return page

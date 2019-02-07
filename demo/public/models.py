@@ -23,6 +23,9 @@ class Article(models.Model):
     def __str__(self, ):
         return self.title
 
+    def get_first_page(self, ):
+        return self.pages.first()
+
 
 class Page(models.Model):
     article = models.ForeignKey("Article", on_delete=models.CASCADE, related_name="pages")
@@ -31,6 +34,24 @@ class Page(models.Model):
 
     def __str__(self, ):
         return "{} page {}".format(self.article.title, self.number)
+
+    def get_next_page(self, ):
+        try:
+            return Page.objects.get(
+                number=(self.number + 1),
+                article=self.article
+            )
+        except:
+            return False
+
+    def get_prev_page(self, ):
+        try:
+            return Page.objects.get(
+                number=(self.number - 1),
+                article=self.article
+            )
+        except:
+            return False
 
 
 class Hit(models.Model):

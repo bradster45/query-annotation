@@ -17,7 +17,11 @@
             {% for article in object_list %}
             <tr>
                 <td>{{ article.id }}</td>
-                <td>{{ article.title }}</td>
+                <td>
+                    <a href="{% url 'page' article.pk article.get_first_page.pk %}">
+                        {{ article.title }}
+                    </a>
+                </td>
                 <td>{{ article.average_rating|floatformat|strip_0 }}</td>
                 <td>{{ article.unique_views }}</td>
                 <td>{{ article.views }}</td>

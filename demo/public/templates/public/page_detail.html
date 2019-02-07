@@ -1,0 +1,38 @@
+{% extends 'public/base.html' %}
+
+{% load custom_filters %}
+
+{% block head %}
+    <style>
+        .page-navigation{
+            width:300px;
+            margin: 0 auto;
+        }
+    </style>
+{% endblock head %}
+
+{% block container %}
+    <div class="background-white padding-10">
+        <h3>{{ object.article.title }}, page {{ object.number }}</h3>
+        <div class="page-content">
+            {{ object.content|safe }}
+        </div>
+        <div class="page-navigation clearfix">
+            {% if object.get_prev_page %}
+                <a href="{% url 'page' object.article.pk object.get_prev_page.pk %}">
+                    <button class="left">
+                        Prev page
+                    </button>
+                </a>
+            {% endif %}
+
+            {% if object.get_next_page %}
+                <a href="{% url 'page' object.article.pk object.get_next_page.pk %}">
+                    <button class="right">
+                        Next page
+                    </button>
+                </a>
+            {% endif %}
+        </div>
+    </div>
+{% endblock container %}
